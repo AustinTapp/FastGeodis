@@ -205,8 +205,8 @@ if __name__ == "__main__":
     example = "gray"
 
     if example == "gray":
-        image = Image.open("data/img2d.png").convert("L")
+        image = Image.open("../data/img2d.png").convert("L")
     elif example == "color":
-        image = Image.open("data/ISIC_546.jpg")
+        image = Image.open("../data/ISIC_546.jpg")
 
     demo_geodesic_distance2d(image)

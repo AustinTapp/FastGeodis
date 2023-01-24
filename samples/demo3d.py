@@ -216,4 +216,4 @@ def demo_geodesic_distance3d(image_path, seed_pos):
 
 
 if __name__ == "__main__":
-    demo_geodesic_distance3d("data/img3d.nii.gz", [10, 60, 70])
+    demo_geodesic_distance3d("../data/img3d.nii.gz", [10, 60, 70])

@@ -11,7 +11,7 @@ from PIL import Image
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-image_path = "data/img3d.nii.gz"
+image_path = "../data/img3d.nii.gz"
 seed_pos = [10, 60, 70]
 image_folder = os.path.dirname(image_path)
 image_sitk = sitk.ReadImage(image_path)
