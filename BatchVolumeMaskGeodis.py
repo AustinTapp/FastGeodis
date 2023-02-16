@@ -1,10 +1,5 @@
-import math
 import os
-import time
-from functools import wraps
-
 import FastGeodis
-import matplotlib.pyplot as plt
 import numpy as np
 import SimpleITK as sitk
 import torch
@@ -40,9 +35,9 @@ def geodesic_distance3d_3dmasked(CT, seed_mask):
     return fastraster_output_image
 
 if __name__ == "__main__":
-    image_folder = "D:\\Data\\CNH_Paired\\CTnoBed"
-    seed_folder = "D:\\Data\\CNH_Paired\\CTnoBed"
-    GD_CT_folder = "D:\\Data\\CNH_Paired\\gd_CT"
+    image_folder = "D:\\Data\\CNH_Paired\\NoBedCTs"
+    seed_folder = "D:\\Data\\CNH_Paired\\NoBedCTseeds"
+    GD_CT_folder = "D:\\Data\\CNH_Paired\\GeoDis_CT"
 
     isExist = os.path.exists(GD_CT_folder)
     if not isExist:
@@ -53,10 +48,11 @@ if __name__ == "__main__":
     seed_dict = {f.split("_")[0]: f for f in seed_files}
 
     for ct_filename in CTs_with_paths:
-        if ct_filename.split("_")[0] ==
-            ct_file = os.path.join(CTs, ct_filename)
-            t1_file = os.path.join(MRs, t1_filename)
-            gd_CT_image = geodesic_distance3d_3dmasked(CT_volume, seed_vol_mask)
-            sitk.WriteImage(fastraster_output_image, os.path.join(image_folder, "Geodis3D_2bed.nii.gz"))
+        seed_file = seed_dict.get(ct_filename.split("\\")[-1].split("_")[0])
+        if seed_file:
+            ct_image = os.path.join(image_folder, ct_filename)
+            seed_image = os.path.join(seed_folder, seed_file)
+            gd_CT_image = geodesic_distance3d_3dmasked(ct_image, seed_image)
+            sitk.WriteImage(gd_CT_image, os.path.join(GD_CT_folder, seed_file.split("_")[0] + "_geodis.nii.gz"))
 
     print("Done!")
