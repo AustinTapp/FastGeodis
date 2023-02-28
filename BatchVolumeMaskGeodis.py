@@ -3,6 +3,7 @@ import FastGeodis
 import numpy as np
 import SimpleITK as sitk
 import torch
+import warnings
 
 
 def geodesic_distance3d_3dmasked(CT, seed_mask):
@@ -30,13 +31,30 @@ def geodesic_distance3d_3dmasked(CT, seed_mask):
 
     #compare two arrays and set the 0 value to -1024 for the geodisic case
     fastraster_output_gpu = np.where(input_image == -1024, -1024, fastraster_output_gpu)
+    fastraster_output_gpu = np.clip(fastraster_output_gpu, -1024, None)
     fastraster_output_image = sitk.GetImageFromArray(fastraster_output_gpu)
     fastraster_output_image.SetSpacing(spacing_raw)
-    return fastraster_output_image
+    fastraster_output_image.SetOrigin(image_sitk.GetOrigin())
+    fastraster_output_image.SetDirection(image_sitk.GetDirection())
+    fastraster_output_image_RO = None
+
+    try:
+        elastix = sitk.ElastixImageFilter()
+        elastix.SetFixedImage(image_sitk)
+        elastix.SetMovingImage(fastraster_output_image)
+        elastix.SetParameterMap(sitk.GetDefaultParameterMap("rigid"))
+        elastix.LogToConsoleOff()
+        elastix.Execute()
+        fastraster_output_image_RO = elastix.GetResultImage()
+
+    except RuntimeError as e:
+        warnings.warn(str(e))
+
+    return fastraster_output_image_RO
 
 if __name__ == "__main__":
-    image_folder = "D:\\Data\\CNH_Paired\\NoBedCTs"
-    seed_folder = "D:\\Data\\CNH_Paired\\NoBedCTseeds"
+    image_folder = "D:\\Data\\CNH_Paired\\ForGeodesic\\ct"
+    seed_folder = "D:\\Data\\CNH_Paired\\ForGeodesic\\seg"
     GD_CT_folder = "D:\\Data\\CNH_Paired\\GeoDis_CT"
 
     isExist = os.path.exists(GD_CT_folder)
