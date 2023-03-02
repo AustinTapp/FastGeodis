@@ -31,7 +31,7 @@ def geodesic_distance3d_3dmasked(CT, seed_mask):
 
     #compare two arrays and set the 0 value to -1024 for the geodisic case
     fastraster_output_gpu = np.where(input_image == -1024, -1024, fastraster_output_gpu)
-    fastraster_output_gpu = np.clip(fastraster_output_gpu, -1024, None)
+    fastraster_output_gpu = np.clip(fastraster_output_gpu, -900, None)
     fastraster_output_image = sitk.GetImageFromArray(fastraster_output_gpu)
     fastraster_output_image.SetSpacing(spacing_raw)
     fastraster_output_image.SetOrigin(image_sitk.GetOrigin())
