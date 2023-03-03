@@ -37,7 +37,7 @@ def geodesic_distance3d_3dmasked(CT, seed_mask):
     fastraster_output_image.SetSpacing(spacing_raw)
     fastraster_output_image.SetOrigin(image_sitk.GetOrigin())
     fastraster_output_image.SetDirection(image_sitk.GetDirection())
-    fastraster_output_image_RO = None
+
 
     try:
         elastix = sitk.ElastixImageFilter()
