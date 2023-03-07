@@ -88,7 +88,7 @@ def demo_geodesic_distance3d(image_path, seed_pos):
     #plt.show()
 
 if __name__ == "__main__":
-    demo_geodesic_distance3d("C:\\Users\\Austin Tapp\\Desktop\\33_noBed.nii.gz", "C:\\Users\\Austin Tapp\\Desktop\\seg.nii.gz")
+    demo_geodesic_distance3d("D:\\Data\\CNH_Paired\\NoBedCTs\\377_noBed.nii.gz", "D:\\Data\\CNH_Paired\\NoBedCTs\\377_suture_seg.nii.gz")
 
 #demo - ITK: 70, 60, 10 --> 10, 60, 70
 #17 no bed, ON SUTURE - ITK: 250, 290, 102 --> 101, 290, 250
